@@ -1,7 +1,6 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import Navbar from './components/Navbar'
+import { v4 as uuid4 } from 'uuid';
 
 function App() {
   const [todo, setTodo] = useState("")
@@ -13,12 +12,26 @@ function App() {
 
   }
   const handleAdd = ()=>{
-    setTodos([...todos, {todo, isCompleted: false}])
+    // Generate unique uuid : npm i uuid
+    // anfn for function 
+    setTodos([...todos, {id: uuid4(),todo, isCompleted: false}])
     setTodo("")
   }
   const handlechange = (e)=>{
     setTodo(e.target.value)
   }
+  // const handleCheckbox = (e) => {
+  //   e.target.isCompleted = !(e.target.isCompleted)
+  //   e.target.todo.style.text-decoration-line = line-through
+  // }
+  const handleCheckbox = (id) => {
+  setTodos(todos =>
+    todos.map(todo =>
+      todo.id === id ? { ...todo, isCompleted: !todo.isCompleted } : todo
+    )
+  );
+};
+  
 
   return (
     <>
@@ -30,13 +43,15 @@ function App() {
             <button onClick={handleAdd} className='cursor-pointer bg-violet-700 hover:bg-violet-900 px-4 py-1 text-sm font-bold text-white rounded-md mx-6' >Add</button>
         </div>
         <h2 className='text-lg font-bold'>Your Todos</h2>
-        <div className="todos">
+        <div className="todos items-center flex flex-col gap-2 justify-center my-3">
           {todos.map(item=>{
-          return <div className='todo flex'>
-            <div className={item.isComplete?"":"line-through"}>{item.todo}</div>
-            <div className="buttons">
-              <button onClick={handleEdit} className='cursor-pointer bg-violet-700 hover:bg-violet-900 px-2 py-1 text-sm font-bold text-white rounded-md mx-6' >Edit</button>
-              <button onClick={handleDelete} className='cursor-pointer bg-violet-700 hover:bg-violet-900 px-2 py-1 text-sm font-bold text-white rounded-md mx-6' >Delete</button>
+          return <div key={item.id} className='todo flex w-1/2 justify-between'>
+            {/* <input onChange={handleCheckbox(item.id)} type="checkbox" checked={item.isCompleted} name={item.id} /> */}
+            <input onChange={() => handleCheckbox(item.id)} type="checkbox" checked={item.isCompleted} name={item.id}/>
+            <div className={item.isCompleted?"line-through":""}>{item.todo}</div>
+            <div className="buttons flex align-middle gap-5">
+              <button onClick={handleEdit} className='cursor-pointer bg-violet-700 hover:bg-violet-900 px-2 py-1 text-sm font-bold text-white rounded-md' >Edit</button>
+              <button onClick={handleDelete} className='cursor-pointer bg-violet-700 hover:bg-violet-900 px-2 py-1 text-sm font-bold text-white rounded-md' >Delete</button>
             </div>
           </div>
           })
