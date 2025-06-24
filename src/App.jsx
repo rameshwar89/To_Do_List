@@ -76,7 +76,7 @@ function App() {
         <Typer/>
       </div>
         <div className='addtodo my-5'>
-          <h2 className="text-xl font-bold">Save you Todos</h2>
+          <h2 className="text-xl font-bold">Save you Todos Here</h2>
           <input autoFocus={true} onChange={handlechange} value={todo} type="text" className='w-full h-7 rounded-md bg-amber-50 my-3 border-0 outline-0 p-2'/>
             <button onClick={handleAdd} disabled={todo.length < 4} className='w-full cursor-pointer bg-violet-700 hover:bg-violet-900 py-1 text-sm font-bold text-white rounded-md disabled:bg-gray-500'>Save</button>
         </div>
